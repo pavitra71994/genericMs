@@ -9,7 +9,6 @@ import javax.persistence.Id;
 public class AnswerBean {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
 	public int ansId;
 	public String ans;
 	public boolean isAnsTrue;
