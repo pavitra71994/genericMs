@@ -15,14 +15,14 @@ public class QuestionBean {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-	private Integer quesNo;
+	private long quesNo;
 	private String ques;
 	@OneToMany(targetEntity=AnswerBean.class,cascade=CascadeType.ALL)
 	private List<AnswerBean> ansList;
-	public Integer getQuesNo() {
+	public long getQuesNo() {
 		return quesNo;
 	}
-	public void setQuesNo(Integer quesNo) {
+	public void setQuesNo(long quesNo) {
 		this.quesNo = quesNo;
 	}
 	public String getQues() {
@@ -38,7 +38,7 @@ public class QuestionBean {
 	public void setAnsList(List<AnswerBean> ansList) {
 		this.ansList = ansList;
 	}
-	public QuestionBean(Integer quesNo, String ques, List<AnswerBean> ansList) {
+	public QuestionBean(long quesNo, String ques, List<AnswerBean> ansList) {
 		super();
 		this.quesNo = quesNo;
 		this.ques = ques;
