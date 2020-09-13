@@ -20,7 +20,7 @@ public interface ServiceInterface {
 	        produces = "application/json")
 	public ResponseEntity<CreateQuestionResponse> createQuestionLog(@RequestBody QuestionBean objQuestionBean);
 	
-	@CrossOrigin(origins = "http://localhost:3000")
+	@CrossOrigin(origins = "*")
 	@GetMapping(path = "/question", 
 	        consumes = "application/json", 
 	        produces = "application/json")
