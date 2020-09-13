@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 public class QuestionBean {
 	
 	@Id
-    @GeneratedValue(strategy = GenerationType.TABLE )
+    @GeneratedValue(strategy = GenerationType.AUTO )
 	private int quesNo;
 	private String ques;
 	@OneToMany(targetEntity=AnswerBean.class,cascade=CascadeType.ALL)
