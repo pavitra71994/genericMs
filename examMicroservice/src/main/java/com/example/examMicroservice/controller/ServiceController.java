@@ -1,6 +1,7 @@
 package com.example.examMicroservice.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ public class ServiceController implements ServiceInterface {
 		
 		CreateQuestionResponse objCreateQuestionResponse =new CreateQuestionResponse();
 		ErrorDTO objErrorDTO =  new ErrorDTO();
+		HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.set("Access-Control-Allow-Origin", "*");
+	    responseHeaders.set("Access", "ajkshdkj");
 		try {
 			objExamService.createQuestionLog(objQuestionBean);
 			objCreateQuestionResponse.setObjQuestionBean(objQuestionBean);
@@ -31,14 +35,14 @@ public class ServiceController implements ServiceInterface {
 			objErrorDTO.setErrorCode("200");
 			objErrorDTO.setErrorMsg("Success");
 			objCreateQuestionResponse.setObjErrorDTO(objErrorDTO);
-			return ResponseEntity.status(HttpStatus.OK)
+			return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders)
 			        .body(objCreateQuestionResponse);
 		} catch(Exception e) {
 			objCreateQuestionResponse.setObjQuestionBean(objQuestionBean);
 			objErrorDTO.setErrorCode("333");
 			objErrorDTO.setErrorMsg(e.getMessage());
 			objCreateQuestionResponse.setObjErrorDTO(objErrorDTO);
-			return ResponseEntity.status(HttpStatus.CREATED)
+			return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders)
 			        .body(objCreateQuestionResponse);
 		}
 		 
@@ -51,19 +55,22 @@ public class ServiceController implements ServiceInterface {
 
 		QuestionResponse objQuestionResponse = new QuestionResponse();
 		ErrorDTO objErrorDTO =  new ErrorDTO();
+		HttpHeaders responseHeaders = new HttpHeaders();
+	    responseHeaders.set("Access-Control-Allow-Origin", "*");
+	    responseHeaders.set("Access", "ajkshdkj");
 		try {
 			objErrorDTO.setErrorCode("200");
 			objErrorDTO.setErrorMsg("Success");
 			objQuestionResponse.setObjErrorDTO(objErrorDTO);
 			objQuestionResponse.setQuestionAns(objExamService.fetchQuestionLog());
-			return ResponseEntity.status(HttpStatus.OK)
+			return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders)
 			        .body(objQuestionResponse);
 		}
 		 catch(Exception e) {
 				objErrorDTO.setErrorCode("333");
 				objErrorDTO.setErrorMsg(e.getMessage());
 				objQuestionResponse.setObjErrorDTO(objErrorDTO);
-				return ResponseEntity.status(HttpStatus.OK)
+				return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders)
 				        .body(objQuestionResponse);
 		 }
 	}
