@@ -56,9 +56,8 @@ public class ServiceController implements ServiceInterface {
 		QuestionResponse objQuestionResponse = new QuestionResponse();
 		ErrorDTO objErrorDTO =  new ErrorDTO();
 		HttpHeaders responseHeaders = new HttpHeaders();
-	    responseHeaders.set("Access-Control-Allow-Origin", "*");
 	    responseHeaders.set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
-	    responseHeaders.set("Access-Control-Allow-Headers", "Origin, Content-Type, X-Auth-Token");
+	    // responseHeaders.set("Access-Control-Allow-Headers", "Origin, Content-Type,X-Requested-With, Accept, X-Auth-Token");
 		try {
 			objErrorDTO.setErrorCode("200");
 			objErrorDTO.setErrorMsg("Success");
