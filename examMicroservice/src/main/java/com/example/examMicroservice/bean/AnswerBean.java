@@ -9,7 +9,8 @@ import javax.persistence.Id;
 public class AnswerBean {
 
 	@Id
-	public int ansId;
+        @GeneratedValue(strategy = GenerationType.IDENTITY )
+	public Integer ansId;
 	public String ans;
 	public boolean isAnsTrue;
 	public String getAns() {
@@ -24,13 +25,13 @@ public class AnswerBean {
 	public void setAnsTrue(boolean isAnsTrue) {
 		this.isAnsTrue = isAnsTrue;
 	}
-	public int getAnsId() {
+	public Integer getAnsId() {
 		return ansId;
 	}
-	public void setAnsId(int ansId) {
+	public void setAnsId(Integer ansId) {
 		this.ansId = ansId;
 	}
-	public AnswerBean(int ansId, String ans, boolean isAnsTrue) {
+	public AnswerBean(Integer ansId, String ans, boolean isAnsTrue) {
 		super();
 		this.ansId = ansId;
 		this.ans = ans;
