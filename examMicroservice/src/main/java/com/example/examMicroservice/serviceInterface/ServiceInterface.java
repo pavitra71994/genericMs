@@ -26,4 +26,7 @@ public interface ServiceInterface {
 	        produces = "application/json")
 	public ResponseEntity<QuestionResponse> fecthQuestionLog();
 
+        @GetMapping(path = "/sendmail")
+        public void sendEmail();
+
 }
