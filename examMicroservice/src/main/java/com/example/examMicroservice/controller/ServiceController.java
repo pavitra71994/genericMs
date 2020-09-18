@@ -75,7 +75,7 @@ public class ServiceController implements ServiceInterface {
 		 }
 	}
 @Override
-void sendEmail() {
+public void sendEmail() {
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo("pavitrank1@gmail.com");
