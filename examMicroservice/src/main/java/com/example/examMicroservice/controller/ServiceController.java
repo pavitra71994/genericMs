@@ -22,7 +22,7 @@ public class ServiceController implements ServiceInterface {
 	ExamService objExamService;
 
         @Autowired
-        private JavaMailSender javaMailSender
+        private JavaMailSender javaMailSender;
 
 	@Override
 	public ResponseEntity<CreateQuestionResponse> createQuestionLog(QuestionBean objQuestionBean) {
@@ -79,20 +79,13 @@ public class ServiceController implements ServiceInterface {
 				        .body(objQuestionResponse);
 		 }
 	}
-@Override
-public void sendEmail() {
-
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("pavitrank1@gmail.com");
-
-        msg.setSubject("Testing from Spring Boot");
-        msg.setText("Hello World \n Spring Boot Email");
-
-        javaMailSender.send(msg);
-
-    }
-
-	
-	
+        @Override
+        public void sendEmail() {
+                 SimpleMailMessage msg = new SimpleMailMessage();
+                 msg.setTo("pavitrank1@gmail.com");
+                 msg.setSubject("Testing from Spring Boot");
+                 msg.setText("Hello World \n Spring Boot Email");
+                 javaMailSender.send(msg);
+        }	
 }
      
