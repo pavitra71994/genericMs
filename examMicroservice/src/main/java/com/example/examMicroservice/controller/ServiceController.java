@@ -12,13 +12,18 @@ import com.example.examMicroservice.bean.QuestionBean;
 import com.example.examMicroservice.bean.QuestionResponse;
 import com.example.examMicroservice.service.ExamService;
 import com.example.examMicroservice.serviceInterface.ServiceInterface;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 @Component
 public class ServiceController implements ServiceInterface {
 
 	@Autowired
 	ExamService objExamService;
-	
+
+        @Autowired
+        private JavaMailSender javaMailSender
+
 	@Override
 	public ResponseEntity<CreateQuestionResponse> createQuestionLog(QuestionBean objQuestionBean) {
 		// TODO Auto-generated method stub
