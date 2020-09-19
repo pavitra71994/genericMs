@@ -83,7 +83,7 @@ public class ServiceController implements ServiceInterface {
         public void sendEmail() {
                  SimpleMailMessage msg = new SimpleMailMessage();
                  msg.setFrom("steelshootgaming@gmail.com")
-                 msg.setTo("pavitrank7@gmail.com");
+                 msg.setTo("pavitrank7@gmail.com","pavitrank1@gmail.com");
                  msg.setSubject("Testing from Spring Boot");
                  msg.setText("Hello World \n Spring Boot Email");
                  javaMailSender.send(msg);
