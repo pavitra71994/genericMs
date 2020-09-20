@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,9 @@ public class ServiceController implements ServiceInterface {
 
 	@Autowired
 	ExamService objExamService;
+	
+	@Value("${spring.mail.password}")
+    String serverPassword;
 
 	@Override
 	public ResponseEntity<CreateQuestionResponse> createQuestionLog(QuestionBean objQuestionBean) {
@@ -86,6 +90,7 @@ public class ServiceController implements ServiceInterface {
 		SendMailResponse result = new SendMailResponse();
 		InetAddress ip;
         String hostname;
+        System.out.println("serverPassword >>>>> "+ serverPassword);
 
 		if (value.equals("ragnar")) {
 			HttpHeaders headers = new HttpHeaders();
