@@ -1,7 +1,10 @@
 package com.example.examMicroservice.controller;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import com.example.examMicroservice.bean.AnswerBean;
 import com.example.examMicroservice.bean.CreateQuestionResponse;
 import com.example.examMicroservice.bean.ErrorDTO;
 import com.example.examMicroservice.bean.QuestionBean;
@@ -58,7 +63,7 @@ public class ServiceController implements ServiceInterface {
 	}
 
 	@Override
-	public ResponseEntity<QuestionResponse> fecthQuestionLog() {
+	public ResponseEntity<QuestionResponse> fecthQuestionLog(String serviceType) {
 		// TODO Auto-generated method stub
 
 		QuestionResponse objQuestionResponse = new QuestionResponse();
@@ -68,10 +73,29 @@ public class ServiceController implements ServiceInterface {
 		// responseHeaders.set("Access-Control-Allow-Headers", "Origin,
 		// Content-Type,X-Requested-With, Accept, X-Auth-Token");
 		try {
+			List<QuestionBean> objQuesListFinal = new ArrayList<QuestionBean>();
+			
+			if (serviceType.equals("showQuestion")) {
+				List<QuestionBean> objQuesList = new ArrayList<QuestionBean>();
+				objQuesList = objExamService.fetchQuestionLog();
+				Iterator<QuestionBean> quesIt = objQuesList.iterator();
+				while (quesIt.hasNext()) {
+					QuestionBean quesObj = quesIt.next();
+					Iterator<AnswerBean> ansIt = quesObj.getAnsList().iterator();
+					while (ansIt.hasNext()) {
+						AnswerBean ansObj = ansIt.next();
+						ansObj.setAnsTrue(false);
+					}
+				}
+				objQuesListFinal = objQuesList;
+			}if (serviceType.equals("checkResult")) {
+				objQuesListFinal =objExamService.fetchQuestionLog();
+			}
+
 			objErrorDTO.setErrorCode("200");
 			objErrorDTO.setErrorMsg("Success");
 			objQuestionResponse.setObjErrorDTO(objErrorDTO);
-			objQuestionResponse.setQuestionAns(objExamService.fetchQuestionLog());
+			objQuestionResponse.setQuestionAns(objQuesListFinal);
 			return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(objQuestionResponse);
 		} catch (Exception e) {
 			objErrorDTO.setErrorCode("333");

@@ -30,7 +30,7 @@ public interface ServiceInterface {
 	@GetMapping(path = "/question", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<QuestionResponse> fecthQuestionLog();
+	public ResponseEntity<QuestionResponse> fecthQuestionLog(@RequestHeader(name = "serviceType") String serviceType);
 	
 	@CrossOrigin(origins = "*")
 	@PostMapping(path = "/sendResultMail", consumes = { MediaType.APPLICATION_JSON_VALUE,
