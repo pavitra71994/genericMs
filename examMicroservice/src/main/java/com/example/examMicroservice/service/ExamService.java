@@ -32,8 +32,8 @@ public class ExamService {
 
 	public SendMailResponse sendResultViaMail(ResultBodyRequest objResultBodyRequest, String value) throws NewApplicationException {
 		// TODO Auto-generated method stub
-		//String uri = "https://secureroute-genericms.apps.ca-central-1.starter.openshift-online.com/common/v1/sendmail";
-		String uri = "http://localhost:8080/common/v1/sendmail";
+		String uri = "https://secureroute-genericms.apps.ca-central-1.starter.openshift-online.com/common/v1/sendmail";
+		//String uri = "http://localhost:8080/common/v1/sendmail";
 		SendMailResponse result = new SendMailResponse();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("rootuser", value);
