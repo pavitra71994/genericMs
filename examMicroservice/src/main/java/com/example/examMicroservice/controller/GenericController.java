@@ -23,9 +23,6 @@ import com.example.examMicroservice.serviceInterface.GenericInterface;
 public class GenericController implements GenericInterface {
 
 	@Autowired
-	private JavaMailSender javaMailSender;
-
-	@Autowired
 	GenericService objGenericService;
 
 	@Autowired
@@ -48,25 +45,16 @@ public class GenericController implements GenericInterface {
 			ErrorDTO objErrorDTO = new ErrorDTO();
 
 			try {
-				SimpleMailMessage msg = new SimpleMailMessage();
-				msg.setFrom(objSendMailRequest.getFromMail());
-				msg.setTo(objSendMailRequest.getToEmail());
-				msg.setSubject(objSendMailRequest.getSubjectLine());
-				msg.setText(objSendMailRequest.getMessageBody());
-
+				objGenericService.sendMail(objSendMailRequest);
 				objSendMailResponse.setObjSendMailRequest(objSendMailRequest);
 				objErrorDTO.setErrorCode("201");
 				objErrorDTO.setErrorMsg("Success");
 				objSendMailResponse.setObjErrorDTO(objErrorDTO);
-				javaMailSender.send(msg);
-
 				return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(objSendMailResponse);
 			} catch (Exception e) {
-
 				objErrorDTO.setErrorCode("333");
 				objErrorDTO.setErrorMsg(e.getMessage());
 				objSendMailResponse.setObjErrorDTO(objErrorDTO);
-
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).headers(responseHeaders)
 						.body(objSendMailResponse);
 			}
@@ -104,11 +92,16 @@ public class GenericController implements GenericInterface {
 		UserResponse objUserResponse = new UserResponse();
 		if (value.equals(headerValue)) {
 			try {
-				objErrorDTO.setErrorCode("201");
-				objErrorDTO.setErrorMsg("Success");
-				objUserResponse.setObjErrorDTO(objErrorDTO);
-				objUserResponse.setObjUser(objGenericService.getUser());
-				return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(objUserResponse);
+				ArrayList<UserBean> arr = new ArrayList<UserBean>();
+				if (arr.size() > 0) {
+					objErrorDTO.setErrorCode("201");
+					objErrorDTO.setErrorMsg("Success");
+					objUserResponse.setObjErrorDTO(objErrorDTO);
+					objUserResponse.setObjUser(objGenericService.getUser());
+					return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(objUserResponse);
+				} else {
+					return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(responseHeaders).body(objUserResponse);
+				}
 			} catch (Exception e) {
 				objErrorDTO.setErrorCode("333");
 				objErrorDTO.setErrorMsg(e.getMessage());
@@ -121,12 +114,12 @@ public class GenericController implements GenericInterface {
 	}
 
 	@Override
-	public ResponseEntity<UserResponse> getUserByemail(String value, String emailId,String password) {
+	public ResponseEntity<UserResponse> getUserByemail(String value, String emailId, String password) {
 		// TODO Auto-generated method stub
 		UserResponse objUserResponse = new UserResponse();
 		if (value.equals(headerValue)) {
 			try {
-				ArrayList<UserBean> arr = objGenericService.getUserByEmailid(emailId,password);
+				ArrayList<UserBean> arr = objGenericService.getUserByEmailid(emailId, password);
 				if (arr.size() > 0) {
 					objErrorDTO.setErrorCode("201");
 					objErrorDTO.setErrorMsg("Success");

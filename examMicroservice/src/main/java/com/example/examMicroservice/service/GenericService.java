@@ -9,13 +9,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.example.examMicroservice.bean.SendMailRequest;
-import com.example.examMicroservice.bean.SendMailResponse;
 import com.example.examMicroservice.bean.UserBean;
 import com.example.examMicroservice.bean.UserResponse;
 import com.example.examMicroservice.dao.GenericDAO;
@@ -23,6 +22,10 @@ import com.example.examMicroservice.exceptions.NewApplicationException;
 
 @Service
 public class GenericService {
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
 	@Autowired
 	GenericDAO objGenericDAO;
 	
@@ -80,4 +83,14 @@ public class GenericService {
 		
 		return (ArrayList<UserBean>) objGenericDAO.findAll(Example.of(person));
 	}
+
+	public void sendMail(SendMailRequest objSendMailRequest) {
+		// TODO Auto-generated method stub
+		SimpleMailMessage msg = new SimpleMailMessage();
+		msg.setFrom(objSendMailRequest.getFromMail());
+		msg.setTo(objSendMailRequest.getToEmail());
+		msg.setSubject(objSendMailRequest.getSubjectLine());
+		msg.setText(objSendMailRequest.getMessageBody());
+		javaMailSender.send(msg);
+}
 }

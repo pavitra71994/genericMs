@@ -31,19 +31,24 @@ public class ServiceController implements ServiceInterface {
 
 	@Autowired
 	ExamService objExamService;
-	
+
 	@Value("${spring.mail.password}")
-    String serverPassword;
+	String serverPassword;
+
+	@Autowired
+	ErrorDTO objErrorDTO;
+
+	@Autowired
+	HttpHeaders responseHeaders;
+
+	@Value("${headerValue}")
+	String headerValue;
 
 	@Override
 	public ResponseEntity<CreateQuestionResponse> createQuestionLog(QuestionBean objQuestionBean) {
 		// TODO Auto-generated method stub
 
 		CreateQuestionResponse objCreateQuestionResponse = new CreateQuestionResponse();
-		ErrorDTO objErrorDTO = new ErrorDTO();
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("Access-Control-Allow-Origin", "*");
-		responseHeaders.set("Access", "ajkshdkj");
 		try {
 			objExamService.createQuestionLog(objQuestionBean);
 			objCreateQuestionResponse.setObjQuestionBean(objQuestionBean);
@@ -67,14 +72,9 @@ public class ServiceController implements ServiceInterface {
 		// TODO Auto-generated method stub
 
 		QuestionResponse objQuestionResponse = new QuestionResponse();
-		ErrorDTO objErrorDTO = new ErrorDTO();
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
-		// responseHeaders.set("Access-Control-Allow-Headers", "Origin,
-		// Content-Type,X-Requested-With, Accept, X-Auth-Token");
 		try {
 			List<QuestionBean> objQuesListFinal = new ArrayList<QuestionBean>();
-			
+
 			if (serviceType.equals("showQuestion")) {
 				List<QuestionBean> objQuesList = new ArrayList<QuestionBean>();
 				objQuesList = objExamService.fetchQuestionLog();
@@ -88,8 +88,9 @@ public class ServiceController implements ServiceInterface {
 					}
 				}
 				objQuesListFinal = objQuesList;
-			}if (serviceType.equals("checkResult")) {
-				objQuesListFinal =objExamService.fetchQuestionLog();
+			}
+			if (serviceType.equals("checkResult")) {
+				objQuesListFinal = objExamService.fetchQuestionLog();
 			}
 
 			objErrorDTO.setErrorCode("200");
@@ -108,39 +109,14 @@ public class ServiceController implements ServiceInterface {
 	@Override
 	public ResponseEntity<SendMailResponse> sendResultViaMail(ResultBodyRequest objResultBodyRequest, String value) {
 		// TODO Auto-generated method stub
-		 String uri = "https://secureroute-genericms.apps.ca-central-1.starter.openshift-online.com/common/v1/sendmail";
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
 		SendMailResponse result = new SendMailResponse();
-		InetAddress ip;
-        String hostname;
-        System.out.println("serverPassword >>>>> "+ serverPassword);
-
 		if (value.equals("ragnar")) {
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("rootuser", value);
 			try {
-				ip = InetAddress.getLocalHost();
-	            hostname = ip.getHostName();
-	            System.out.println("Your current IP address : " + ip);
-	            System.out.println("Your current Hostname : " + hostname);
-	            //final String uri =hostname+uri; 
-	            System.out.println("uri >>>>>  : " + ip);
-				
-				StringBuilder msgBody = new StringBuilder("Correct -" + objResultBodyRequest.getCorrectAns() + "\n");
-				msgBody.append("InCorrect - " + objResultBodyRequest.getIncorrectAns() + "\n");
-				msgBody.append("UnAttempted - " + objResultBodyRequest.getUnattemptedQues() + "\n");
-				msgBody.append("Result - " + objResultBodyRequest.getResult() + "\n");
-				HttpEntity<SendMailRequest> entity = new HttpEntity<>(objResultBodyRequest.getObjSendMailRequest(),
-						headers);
-				RestTemplate restTemplate = new RestTemplate();
-				objResultBodyRequest.getObjSendMailRequest().setMessageBody(msgBody.toString());
-				result = restTemplate.postForObject(uri, entity, SendMailResponse.class);
+				result = objExamService.sendResultViaMail(objResultBodyRequest,value);
 				return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(result);
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 				return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).headers(responseHeaders).body(result);
-
 			}
 		}
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(responseHeaders).body(result);
