@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.examMicroservice.bean.RegisterUserResponse;
@@ -25,23 +26,24 @@ public interface GenericInterface {
 	@PostMapping(path = "/sendmail", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<SendMailResponse> sendEmail(@RequestBody SendMailRequest objSendMailRequest,  @RequestHeader(name = "rootuser") String value);
-	
+	public ResponseEntity<SendMailResponse> sendEmail(@RequestBody SendMailRequest objSendMailRequest,
+			@RequestHeader(name = "rootuser") String value);
+
 	@CrossOrigin(origins = "*")
 	@PostMapping(path = "/user", consumes = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE,
 					MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody UserBean objUserBean,  @RequestHeader(name = "rootuser") String value);
+	public ResponseEntity<RegisterUserResponse> registerUser(@RequestBody UserBean objUserBean,
+			@RequestHeader(name = "rootuser") String value);
 
 	@CrossOrigin(origins = "*")
-	@GetMapping(path = "/user",  produces = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
+	@GetMapping(path = "/user", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<UserResponse> getUser(@RequestHeader(name = "rootuser") String value);
-	
-	@CrossOrigin(origins = "*")
-	@GetMapping(path = "/user/{emailId}", produces = { MediaType.APPLICATION_JSON_VALUE,
-					MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<UserResponse> getUserByemail (String value,@PathVariable String emailId);
 
+	@CrossOrigin(origins = "*")
+	@GetMapping(path = "/user/filter", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	public ResponseEntity<UserResponse> getUserByemail(@RequestHeader(name = "rootuser") String value,
+			@RequestParam(name = "emailId", required = false) String emailId,
+			@RequestParam(name = "password", required = false) String password);
 
 }
