@@ -108,7 +108,7 @@ public class GenericController implements GenericInterface {
 				objErrorDTO.setErrorMsg("Success");
 				objUserResponse.setObjErrorDTO(objErrorDTO);
 				objUserResponse.setObjUser(objGenericService.getUser());
-				return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(objUserResponse);
+				return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(objUserResponse);
 			} catch (Exception e) {
 				objErrorDTO.setErrorCode("333");
 				objErrorDTO.setErrorMsg(e.getMessage());
