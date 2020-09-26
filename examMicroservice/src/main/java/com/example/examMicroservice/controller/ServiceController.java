@@ -92,12 +92,18 @@ public class ServiceController implements ServiceInterface {
 			if (serviceType.equals("checkResult")) {
 				objQuesListFinal = objExamService.fetchQuestionLog();
 			}
+			
+			if(objQuesListFinal.size()>0) {
+				objErrorDTO.setErrorCode("200");
+				objErrorDTO.setErrorMsg("Success");
+				objQuestionResponse.setObjErrorDTO(objErrorDTO);
+				objQuestionResponse.setQuestionAns(objQuesListFinal);
+				return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(objQuestionResponse);
+			} else {
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).headers(responseHeaders).body(objQuestionResponse);
+			}
 
-			objErrorDTO.setErrorCode("200");
-			objErrorDTO.setErrorMsg("Success");
-			objQuestionResponse.setObjErrorDTO(objErrorDTO);
-			objQuestionResponse.setQuestionAns(objQuesListFinal);
-			return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(objQuestionResponse);
+			
 		} catch (Exception e) {
 			objErrorDTO.setErrorCode("333");
 			objErrorDTO.setErrorMsg(e.getMessage());
