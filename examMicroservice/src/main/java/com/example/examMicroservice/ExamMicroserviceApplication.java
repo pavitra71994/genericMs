@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpHeaders;
 
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 @SpringBootApplication
+@EnableSwagger2
 //@ComponentScan(basePackages="com.example.examMicroservice.serviceInterface")
 public class ExamMicroserviceApplication {
 
