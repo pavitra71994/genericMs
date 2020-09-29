@@ -42,8 +42,9 @@ public interface GenericInterface {
 
 	@CrossOrigin(origins = "*")
 	@GetMapping(path = "/user/filter", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<UserResponse> getUserByemail(@RequestHeader(name = "rootuser") String value,
+	public ResponseEntity<UserResponse> getFilteredUser(@RequestHeader(name = "rootuser") String value,
 			@RequestParam(name = "emailId", required = false) String emailId,
-			@RequestParam(name = "password", required = false) String password);
+			@RequestParam(name = "password", required = false) String password,
+			@RequestParam(name = "authCookie", required = false) String authCookie);
 
 }

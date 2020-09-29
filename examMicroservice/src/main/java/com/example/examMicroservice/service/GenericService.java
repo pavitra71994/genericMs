@@ -66,7 +66,7 @@ public class GenericService {
 		
 	}
 
-	public ArrayList<UserBean> getUserByEmailid(String emailId, String password) throws NewApplicationException {
+	public ArrayList<UserBean> getFilteredUser(String emailId, String password,String authCookie) throws NewApplicationException {
 		// TODO Auto-generated method stub
 		UserBean person = new UserBean();   
 		try {
@@ -76,6 +76,10 @@ public class GenericService {
 			
 			if(password != null && !password.equals("")) {
 				person.setPassword(password);   
+			}
+			
+			if(authCookie != null && !authCookie.equals("")) {
+				person.setAuthToken(authCookie);   
 			}
 		} catch(Exception e) {
 			throw new NewApplicationException(e.getMessage());

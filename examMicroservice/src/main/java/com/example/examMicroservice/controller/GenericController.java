@@ -114,12 +114,12 @@ public class GenericController implements GenericInterface {
 	}
 
 	@Override
-	public ResponseEntity<UserResponse> getUserByemail(String value, String emailId, String password) {
+	public ResponseEntity<UserResponse> getFilteredUser(String value, String emailId, String password, String authCookie) {
 		// TODO Auto-generated method stub
 		UserResponse objUserResponse = new UserResponse();
 		if (value.equals(headerValue)) {
 			try {
-				ArrayList<UserBean> arr = objGenericService.getUserByEmailid(emailId, password);
+				ArrayList<UserBean> arr = objGenericService.getFilteredUser(emailId, password, authCookie);
 				if (arr.size() > 0) {
 					objErrorDTO.setErrorCode("201");
 					objErrorDTO.setErrorMsg("Success");
